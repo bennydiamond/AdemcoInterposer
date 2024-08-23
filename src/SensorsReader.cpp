@@ -1,6 +1,5 @@
 #include "SensorsReader.h"
 #include <Arduino.h>
-#include "strings.h"
 
 boolean const NoInvert = false;
 boolean const Invert = true;
@@ -8,6 +7,9 @@ boolean const Invert = true;
 auto const InputPinsCount = 10;
 auto const ZonesMuxPinsCount = 3;
 
+#define DEVICECLASS_DOOR "door"
+#define DEVICECLASS_MOTION "motion"
+#define DEVICECLASS_WINDOW "window"
 typedef struct
 {
     uint8_t pin;
@@ -72,37 +74,37 @@ void SensorsReader::init (void)
 
     pinMode(PIN_A4, OUTPUT);
     pinMode(PIN_A5, OUTPUT);
-    Serial.println("SensorsReader init done.");
+    Serial.println(F("SensorsReader init done."));
 
-    m_zone1.setDeviceClass("door");
-    m_zone1.setName("Avant");
+    m_zone1.setDeviceClass(F(DEVICECLASS_DOOR));
+    m_zone1.setName(F("Avant"));
 
-    m_zone2.setDeviceClass("door");
-    m_zone2.setName("Bureau");
+    m_zone2.setDeviceClass(F(DEVICECLASS_DOOR));
+    m_zone2.setName(F("Bureau"));
 
-    m_zone3.setDeviceClass("motion");
-    m_zone3.setName("Salon");
+    m_zone3.setDeviceClass(F(DEVICECLASS_MOTION));
+    m_zone3.setName(F("Salon"));
 
-    m_zone4.setDeviceClass("motion");
-    m_zone4.setName("Entrée");
+    m_zone4.setDeviceClass(F(DEVICECLASS_MOTION));
+    m_zone4.setName(F("Entrée"));
 
-    m_zone5.setDeviceClass("door");
-    m_zone5.setName("Patio");
+    m_zone5.setDeviceClass(F(DEVICECLASS_DOOR));
+    m_zone5.setName(F("Patio"));
 
-    m_zone6.setDeviceClass("door");
-    m_zone6.setName("Intérieur Garage RDC");
+    m_zone6.setDeviceClass(F(DEVICECLASS_DOOR));
+    m_zone6.setName(F("Intérieur Garage RDC"));
 
-    m_zone7.setDeviceClass("door");
-    m_zone7.setName("Intérieur Garage SS");
+    m_zone7.setDeviceClass(F(DEVICECLASS_DOOR));
+    m_zone7.setName(F("Intérieur Garage SS"));
 
-    m_zone8.setDeviceClass("window");
-    m_zone8.setName("Fenêtres SS");
+    m_zone8.setDeviceClass(F(DEVICECLASS_WINDOW));
+    m_zone8.setName(F("Fenêtres SS"));
 
-    m_zone9.setDeviceClass("door");
-    m_zone9.setName("Porte de Coté");
+    m_zone9.setDeviceClass(F(DEVICECLASS_DOOR));
+    m_zone9.setName(F("Porte de Coté"));
 
-    m_zone10.setDeviceClass("motion");
-    m_zone10.setName("Garage");
+    m_zone10.setDeviceClass(F(DEVICECLASS_MOTION));
+    m_zone10.setName(F("Garage"));
 
 
     HABinarySensor* sensors[InputPinsCount] = 

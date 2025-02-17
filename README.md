@@ -4,9 +4,13 @@ My panel is and Ademco 4110MX which does not support ECP keypad protocol. It use
 Arduino input pins are just wired to the zone inputs of the alarm panel to capture state values and relay them to Home Assistant.
 
 # Hardware
-Uses an Arduino nano V3 from DFRobot (ATMega328, 3.3V) and a W5500 Lite ethernet board.
+Uses an Arduino nano clone (ATMega328, 3.3V) and a W5500 Lite ethernet board.
 Voltage divider for sensor inputs which run on 12.6Vdc; high impedance as the panel itself isn't all that high.
 Dual PC817 optocoupler board for muxing sensor pins (more details below).
+All parts I had on hands at the moment.
+
+![image](https://github.com/user-attachments/assets/5314813c-1400-4300-ba4b-be98fd70172f)
+
 
 # Libraries
 [ArduinoHA](https://github.com/dawidchyrzynski/arduino-home-assistant) which is a fantastic tool to get you up and running fast. Use a lot of ressource though but I was able to managed to spawn 10 binary sensor instances.

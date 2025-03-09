@@ -15,8 +15,6 @@ private:
 
     void pollInputs (void);
     boolean readInput (uint8_t pinIdx);
-    void toggleOutputs (void);
-    void toggleOutput (uint8_t outputPin, uint8_t const pinArrayIdx[]);
 
     HABinarySensor m_zone1;
     HABinarySensor m_zone2;

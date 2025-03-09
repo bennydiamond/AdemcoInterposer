@@ -19,32 +19,16 @@ typedef struct
 
 PinSetup_t const InputPins[InputPinsCount] = 
 {
-    { PIN_A3, INPUT,        NoInvert }, // Zone 1
+    { PIN_A3, INPUT_PULLUP, NoInvert }, // Zone 1
     { 4,      INPUT_PULLUP, Invert   }, // Zone 2-1
     { 5,      INPUT_PULLUP, NoInvert }, // Zone 2-2
     { 6,      INPUT_PULLUP, NoInvert }, // Zone 2-3
-    { PIN_A2, INPUT,        NoInvert }, // Zone 3
+    { PIN_A2, INPUT_PULLUP, NoInvert }, // Zone 3
     { 7,      INPUT_PULLUP, NoInvert }, // Zone 4-1
     { 8,      INPUT_PULLUP, NoInvert }, // Zone 4-2
     { 9,      INPUT_PULLUP, NoInvert }, // Zone 4-3
-    { PIN_A1, INPUT,        NoInvert }, // Zone 5
-    { PIN_A0, INPUT,        NoInvert }  // Zone 6
-};
-
- // Reference index of array members in InputPins[InputPinsCount]
-uint8_t const Zone2MuxPinsIdx[ZonesMuxPinsCount] =
-{
-    1,
-    2,
-    3
-};
-
- // Reference index of array members in InputPins[InputPinsCount]
-uint8_t const Zone4MuxPinsIdx[ZonesMuxPinsCount] = 
-{
-    5,
-    6,
-    7
+    { PIN_A1, INPUT_PULLUP, NoInvert }, // Zone 5
+    { PIN_A0, INPUT_PULLUP, NoInvert }  // Zone 6
 };
 
 
@@ -72,8 +56,6 @@ void SensorsReader::init (void)
         pinMode(InputPins[i].pin, InputPins[i].pullup);
     }
 
-    pinMode(PIN_A4, OUTPUT);
-    pinMode(PIN_A5, OUTPUT);
     Serial.println(F("SensorsReader init done."));
 
     m_zone1.setDeviceClass(F(DEVICECLASS_DOOR));
@@ -143,7 +125,6 @@ void SensorsReader::loop (void)
         else
         {
             pollInputs();
-            toggleOutputs();
             m_timer = TimerResetValue_ms;
         }
     }
@@ -182,30 +163,3 @@ boolean SensorsReader::readInput (uint8_t pinIdx)
     return value;
 }
 
-void SensorsReader::toggleOutputs (void)
-{
-    toggleOutput(PIN_A5, Zone2MuxPinsIdx);
-    toggleOutput(PIN_A4, Zone4MuxPinsIdx);
-}
-
-void SensorsReader::toggleOutput (uint8_t outputPin, uint8_t const pinArrayIdx[ZonesMuxPinsCount])
-{
-    auto i = 0;
-
-    // Check Zone2 mux
-    while(i < ZonesMuxPinsCount)
-    {
-        if(readInput(pinArrayIdx[i])) // Zone open?
-        {
-            // At least one zone is open
-            digitalWrite(outputPin, 0); // disconnect optocoupler, opening up the circuit to the panel
-            break;
-        }
-
-        i++;
-    }
-    if(i == ZonesMuxPinsCount) // All zones were closed
-    {
-        digitalWrite(outputPin, 1); // close optocoupler, closing the circuit to the panel
-    }
-}
